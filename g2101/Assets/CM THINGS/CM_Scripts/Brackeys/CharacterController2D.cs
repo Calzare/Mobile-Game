@@ -18,6 +18,8 @@ public class CharacterController2D : MonoBehaviour
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 velocity = Vector3.zero;
 
+	public Animator animator;
+
 	private void Awake()
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -39,7 +41,7 @@ public class CharacterController2D : MonoBehaviour
 	}
 
 
-	public void Move(float move, bool crouch, bool jump)
+	public void Move(float move, bool crouch, bool jump, bool doubleJump, bool doubleJumpReq)
 	{
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
@@ -79,7 +81,7 @@ public class CharacterController2D : MonoBehaviour
 			// If the input is moving the player right and the player is facing left...
 			if (move > 0 && !m_FacingRight)
 			{
-				// ... flip the player.
+				// ...  the player.
 				Flip();
 			}
 			// Otherwise if the input is moving the player left and the player is facing right...
@@ -95,6 +97,17 @@ public class CharacterController2D : MonoBehaviour
 			// Add a vertical force to the player.
 			m_Grounded = false;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+
+		}
+		if (doubleJump)
+		{
+			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+		}
+
+		if (m_Grounded)
+		{
+			doubleJumpReq = false;
+			animator.SetBool("Jump", false);
 		}
 	}
 
