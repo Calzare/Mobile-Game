@@ -76,7 +76,6 @@ public class PlayerMovement : MonoBehaviour {
 		// Move our character
 		controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump, doubleJump, doubleJumpReq);
 		jump = false;
-		animator.SetBool("Jump", false);
 		doubleJump = false;
 	}
 
